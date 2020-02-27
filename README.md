@@ -1,4 +1,4 @@
-![enter image description here](https://atom-outsource.co.th/wp-content/uploads/2019/08/net-core.png)
+![enter image description here](https://lh3.googleusercontent.com/proxy/NDresnlq8eBQkhEAw-B5w5pOv7Nbc9MBEM0ogNqzeK3l8_85t3tI7z8Ewau9IBzbcIs6VmLPFOGXmL6TCAj8KKWX9B91A2weGy4yWQ)
 
 
 ## :grey_question: O que é 
