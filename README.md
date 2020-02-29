@@ -1,6 +1,3 @@
-![enter image description here](https://lh3.googleusercontent.com/proxy/NDresnlq8eBQkhEAw-B5w5pOv7Nbc9MBEM0ogNqzeK3l8_85t3tI7z8Ewau9IBzbcIs6VmLPFOGXmL6TCAj8KKWX9B91A2weGy4yWQ)
-
-
 ## :grey_question: O que é 
 
 Esse é um projeto de **Estudo** que visa a criação de uma Aplicação Web em ASP.NET Core para cadastro de fornecedores. Não apenas desenvolver, mas sim desenvolver utilizando as melhores práticas e ferramentas mais comuns no mercado, visando fortalecer meus conhecimentos para criação de grandes aplicações de nível Corporativo.
