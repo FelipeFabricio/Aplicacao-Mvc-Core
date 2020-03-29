@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MvcCore.Data.Context;
 using MvcCore.Business.Interfaces;
 using MvcCore.Data.Repository;
+using AutoMapper;
 
 namespace MvcCore.App
 {
@@ -50,12 +51,19 @@ namespace MvcCore.App
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<MyDbContext>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+        }
+
+        private int typeoff(Startup startup)
+        {
+            throw new NotImplementedException();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
