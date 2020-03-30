@@ -9,10 +9,7 @@ namespace MvcCore.Data.Context
 {
     public class MyDbContext : DbContext
     {
-        public MyDbContext(DbContextOptions options) : base(options)
-        {
-
-        }
+        public MyDbContext(DbContextOptions options) : base(options){}
 
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
@@ -20,10 +17,10 @@ namespace MvcCore.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //foreach (var property in modelBuilder.Model.GetEntityTypes()
-            //    .SelectMany(e => e.GetProperties()
-            //        .Where(p => p.ClrType == typeof(string))))
-            //    property.Relational().ColumnType = "varchar(100)";
+            foreach (var property in modelBuilder.Model.GetEntityTypes()
+                    .SelectMany(e => e.GetProperties()
+                    .Where(p => p.ClrType == typeof(string))))
+                     property.Relational().ColumnType = "varchar(100)";
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MyDbContext).Assembly);
 
