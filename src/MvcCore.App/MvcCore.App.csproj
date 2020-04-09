@@ -20,4 +20,9 @@
     <ProjectReference Include="..\MvcCore.Data\MvcCore.Data.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\imagens\" />
+  </ItemGroup>
+
 </Project>

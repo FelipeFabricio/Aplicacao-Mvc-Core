@@ -1,20 +1,23 @@
 ﻿@model MvcCore.App.ViewModels.FornecedorViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Cadastrar Fornecedor";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h2 class="text-center font-weight-bold font-daysOne">
+    <span class="fas fa-shipping-fast"></span> @ViewData["Title"]
+</h2>
 
 <hr />
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-md-6">
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-
+            <h4>Informações</h4>
+            <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
 
+            <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
@@ -27,7 +30,7 @@
             </div>
 
             <div class="form-group">
-             <label asp-for="TipoFornecedor" class="control-label"></label><br />
+                <label asp-for="TipoFornecedor" class="control-label"></label><br />
                 <input type="radio" value="1" asp-for="TipoFornecedor" checked /> Pessoa Física<br />
                 <input type="radio" value="2" asp-for="TipoFornecedor" /> Pessoa Jurídica
             </div>
@@ -37,20 +40,22 @@
                     <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
                 </label>
             </div>
+        </div>
 
+        <div class="col-md-6">
             <h4>Endereço</h4>
             <hr />
-
             <partial name="_Endereco" />
-
-            <div class="form-group">
-                <input type="submit" value="Cadastrar" class="btn btn-primary" />
-                <a type="button" asp-action="Index" class="btn btn-info" />Voltar</a>
-            </div>
-
-        </form>
+        </div>
     </div>
-</div>
+    <div class="form-group d-flex justify-content-center align-items-center">
+        <button type="submit" class="btn btn-success">
+            <span class="fa fa-check"></span> Cadastrar
+        </button>&nbsp;
+        <a type="button" asp-action="Index" class="btn btn-dark">Voltar</a>
+    </div>
+</form>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

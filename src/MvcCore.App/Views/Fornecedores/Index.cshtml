@@ -1,12 +1,18 @@
-﻿@model IEnumerable<MvcCore.App.ViewModels.FornecedorViewModel>
+﻿@using MvcCore.App.Extensions;
+@model IEnumerable<MvcCore.App.ViewModels.FornecedorViewModel>
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Fornecedores"; }
+
+<h2 class="text-center font-weight-bold font-daysOne">
+    <span class="fas fa-shipping-fast"></span> @ViewData["Title"]
+</h2>
 
 <p>
-    <a class="btn btn-info" asp-action="Create"><span class="fa fa-plus"></span>&nbsp; Novo Fornecedor</a>
+    <a class="btn btn-primary text-center" asp-action="Create">
+        <span class="fa fa-plus"></span> Novo Fornecedor
+    </a>
 </p>
+
 <table class="table table-hover">
     <thead class="thead-dark">
         <tr>
@@ -34,10 +40,10 @@
                     @Html.DisplayFor(modelItem => item.Nome)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Documento)
+                    @this.FormataDocumento(item.TipoFornecedor, item.Documento)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TipoFornecedor)
+                    @this.FormataNomeTipoPessoa(item.TipoFornecedor)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Ativo)
