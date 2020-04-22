@@ -6,16 +6,16 @@ Esse é um projeto de **Estudo** que visa a criação de uma Aplicação Web em 
 
 ## :hammer: Tecnologias utilizadas:
 
-- ASP.NET MVC Core 2.2
+- ASP.NET Core 2.2
+- ASP.NET MVC Core
 - ASP.NET Identity Core
-- Entity Framework Core 2.2
+- .NET Core Native DI
+- Entity Framework Core
 - XUnit
-- ASP.NET WebApi Core com Autenticação JWT e Swagger
+- AutoMapper
 - Bootstrap 4
 - HTML5, CSS3 e Javascript
 
-
-	> Obs.: Possibilidade de inclusão de outras tecnologias durante o desenvolvimento
 
 <br/>
 
@@ -26,10 +26,9 @@ Esse é um projeto de **Estudo** que visa a criação de uma Aplicação Web em 
 Além do conhecimento nas tecnologias citadas acima, outros tipos de conhecimentos que serão adquiridos durante o desenvolvimento serão:
 
 - Versionamento com o Git ( GitBash )
-- Gerenciar um repositório no GitHub
-- Efetuar deploy no Azure
-- Efetuar deploy no IIS
-- Efetuar deploy no Heroku
+- Gerenciamento de um repositório no GitHub
+- Hospedar e gerenciar  a aplicação no Azure. 
+
 
 <br/>
 
