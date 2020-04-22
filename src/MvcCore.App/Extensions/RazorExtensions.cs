@@ -18,5 +18,30 @@ namespace MvcCore.App.Extensions
             return tipoPessoa == 1 ? "Pessoa Física" : "Pessoa Jurídica";
         }
 
+        public static string retornaSaudacao(this RazorPage page)
+        {
+            var hora = DateTime.Now.Hour;
+            string saudacao = string.Empty;
+
+            if(hora < 5)
+            {
+                saudacao = "Boa noite";
+
+            }else if (hora < 12){
+
+                saudacao = "Bom dia";
+
+            }else if(hora < 18)
+            {
+                saudacao = "Boa tarde";
+            }
+            else
+            {
+                saudacao = "Boa noite";
+            }
+
+            return saudacao;
+        }
+
     }
 }
