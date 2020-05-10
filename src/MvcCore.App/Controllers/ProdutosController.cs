@@ -19,15 +19,19 @@ namespace MvcCore.App.Controllers
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IFornecedorRepository _fornecedorRepository;
+        private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
 
         public ProdutosController(IProdutoRepository produtoRepository,
-                                  IMapper mapper,
-                                  IFornecedorRepository fornecedorRepository)
+                                  IMapper mapper, 
+                                  IProdutoService produtoService,
+                                  INotificador notificador,
+                                  IFornecedorRepository fornecedorRepository) : base (notificador)
         {
             _produtoRepository = produtoRepository;
             _mapper = mapper;
             _fornecedorRepository = fornecedorRepository;
+            _produtoService = produtoService;
         }
 
         [Route("produtos")]
@@ -46,7 +50,7 @@ namespace MvcCore.App.Controllers
             return View(produtoViewModel);
         }
 
-        [Route("cadastrar-novo-produto/{id:guid}")]
+        [Route("cadastrar-novo-produto")]
         public async Task<IActionResult> Create()
         {
             var produtoViewModel = await PopularFornecedores(new ProdutoViewModel());
@@ -54,7 +58,7 @@ namespace MvcCore.App.Controllers
             return View(produtoViewModel);
         }
 
-        [Route("cadastrar-novo-produto/{id:guid}")]
+        [Route("cadastrar-novo-produto")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
@@ -69,7 +73,7 @@ namespace MvcCore.App.Controllers
 
             produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
 
-            await _produtoRepository.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             return RedirectToAction("Index");
         }
@@ -111,7 +115,7 @@ namespace MvcCore.App.Controllers
             produtoAtualizacao.Descricao = produtoViewModel.Descricao;
             produtoAtualizacao.Valor = produtoViewModel.Valor;
 
-            await _produtoRepository.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
             return RedirectToAction("Index");
         }
@@ -135,7 +139,7 @@ namespace MvcCore.App.Controllers
 
             if (produtoViewModel == null) return NotFound();
 
-            await _produtoRepository.Remover(id);
+            await _produtoService.Remover(id);
 
             return RedirectToAction("Index");
         }

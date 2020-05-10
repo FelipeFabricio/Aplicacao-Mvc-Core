@@ -1,13 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Validations\" />
-    <Folder Include="Nofications\" />
-    <Folder Include="Services\" />
+    <Compile Remove="Nofications\**" />
+    <EmbeddedResource Remove="Nofications\**" />
+    <None Remove="Nofications\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="8.6.2" />
   </ItemGroup>
 
 </Project>

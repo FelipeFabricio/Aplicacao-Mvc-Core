@@ -15,7 +15,8 @@
 
             <h4>Informações</h4>
             <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <vc:Summary model="" ></vc:Summary>
 
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
@@ -25,7 +26,7 @@
 
             <div class="form-group">
                 <label asp-for="Documento" class="control-label"></label>
-                <input asp-for="Documento" class="form-control" />
+                <input asp-for="Documento" class="form-control"/>
                 <span asp-validation-for="Documento" class="text-danger"></span>
             </div>
 

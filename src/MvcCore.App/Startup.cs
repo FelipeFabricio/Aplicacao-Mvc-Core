@@ -1,24 +1,13 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MvcCore.App.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvcCore.Data.Context;
-using MvcCore.Business.Interfaces;
-using MvcCore.Data.Repository;
 using MvcCore.App.Configurations;
 using AutoMapper;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
-using static MvcCore.App.Extensions.MoedaAttribute;
+using MvcCore.Business.Interfaces;
+using MvcCore.Business.Notificacoes;
 
 namespace MvcCore.App
 {
@@ -44,21 +33,15 @@ namespace MvcCore.App
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddIdentityConfiguration(Configuration);
+
+            services.AddDbContext<MyDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddAutoMapper(typeof(Startup));
             services.AddMvcConfiguration();
             services.ResolveDependencias();
         }
-
-
-        //private int typeoff(Startup startup)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

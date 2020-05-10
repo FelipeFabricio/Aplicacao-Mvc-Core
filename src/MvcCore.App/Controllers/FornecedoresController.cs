@@ -12,16 +12,17 @@ namespace MvcCore.App.Controllers
     public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
-        private readonly IEnderecoRepository _enderecoRepository;
+        private readonly IFornecedorService _fornecedorService;
         private readonly IMapper _mapper;
 
         public FornecedoresController(IFornecedorRepository fornecedorRepository,
                                       IMapper mapper,
-                                      IEnderecoRepository enderecoRepository)
+                                      IFornecedorService fornecedorService,
+                                      INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
-            _enderecoRepository = enderecoRepository;
+            _fornecedorService = fornecedorService;
         }
 
         [Route("fornecedores")]
@@ -44,7 +45,9 @@ namespace MvcCore.App.Controllers
             if (!ModelState.IsValid) return View(fornecedorViewModel);
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            await _fornecedorRepository.Adicionar(fornecedor);
+            await _fornecedorService.Adicionar(fornecedor);
+
+            if (!OperacaoValida()) return View(fornecedorViewModel);
 
             return RedirectToAction("Index");
         }
@@ -72,12 +75,16 @@ namespace MvcCore.App.Controllers
         [Route("editar-fornecedor/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(FornecedorViewModel fornecedorViewModel)
+        public async Task<IActionResult> Edit(Guid id, FornecedorViewModel fornecedorViewModel)
         {
+            if (id != fornecedorViewModel.Id) return NotFound();
+
             if (!ModelState.IsValid) return View(fornecedorViewModel);
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            await _fornecedorRepository.Atualizar(fornecedor);
+            await _fornecedorService.Atualizar(fornecedor);
+
+            if (!OperacaoValida()) return View(await ObterFornecedorProdutosEndereco(id));
 
             return RedirectToAction("Index");
         }
@@ -97,11 +104,13 @@ namespace MvcCore.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var fornecedorViewModel = _fornecedorRepository.ObterFornecedorEndereco(id);
+            var fornecedor = await ObterFornecedorEndereco(id);
 
-            if (fornecedorViewModel == null) return NotFound();
+            if (fornecedor == null) return NotFound();
 
-            await _fornecedorRepository.Remover(id);
+            await _fornecedorService.Remover(id);
+
+            if (!OperacaoValida()) return View(fornecedor);
 
             return RedirectToAction(nameof(Index));
         }
@@ -134,7 +143,7 @@ namespace MvcCore.App.Controllers
             if (!ModelState.IsValid) return PartialView("_AtualizarEndereco", fornecedorViewModel);
 
             var endereco = _mapper.Map<Endereco>(fornecedorViewModel.Endereco);
-            await _enderecoRepository.Atualizar(endereco);
+            await _fornecedorService.AtualizarEndereco(endereco);
 
             var url = Url.Action("ObterEndereco", "Fornecedores", new {id = fornecedorViewModel.Endereco.FornecedorId});
             return Json(new { success = true, url });
