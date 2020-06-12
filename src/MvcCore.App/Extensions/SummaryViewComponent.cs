@@ -13,7 +13,7 @@ namespace MvcCore.App.Extensions
             _notificador = notificador;
         }
 
-        public async Task<IViewComponentResult> InvokeResult()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             var notificacoes = await Task.FromResult(_notificador.ObterNotificacoes());
 

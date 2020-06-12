@@ -99,6 +99,7 @@ namespace MvcCore.App.Controllers
             return View(fornecedorViewModel);
         }
 
+        // TODO: Resolver erro do EF Core ao deletar Fornecedor
         [Route("excluir-fornecedor/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -133,6 +134,7 @@ namespace MvcCore.App.Controllers
             return PartialView("_AtualizarEndereco", new FornecedorViewModel { Endereco = fornecedor.Endereco });
         }
 
+        // TODO: Resover problema ao segundo clique em Editar Endereço
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AtualizarEndereco(FornecedorViewModel fornecedorViewModel)
