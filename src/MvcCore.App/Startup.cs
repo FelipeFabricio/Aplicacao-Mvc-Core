@@ -45,6 +45,7 @@ namespace MvcCore.App
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // TODO: Resolver problema ao rodar em qualquer ambiente que nao seja de desenvolvimento
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -52,7 +53,8 @@ namespace MvcCore.App
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/error/500");
+                app.UseStatusCodePagesWithRedirects("/error/{0}");
                 app.UseHsts();
             }
 

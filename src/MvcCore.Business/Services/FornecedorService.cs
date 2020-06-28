@@ -63,6 +63,14 @@ namespace MvcCore.Business.Services
                 return;
             }
 
+            //Correção da Issue#4 - Antes de deletar o fornecedor, é necessário deletar o Endereço.
+            var endereco = await _enderecoRepository.ObterEnderecoPorFornecedor(id);
+
+            if (endereco != null)
+            {
+                await _enderecoRepository.Remover(endereco.Id);
+            }
+
             await _fornecedorRepository.Remover(id);
         }
 
