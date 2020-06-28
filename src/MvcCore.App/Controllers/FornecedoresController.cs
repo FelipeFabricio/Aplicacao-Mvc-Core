@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MvcCore.App.Extensions;
 using MvcCore.App.ViewModels;
 using MvcCore.Business.Interfaces;
 using MvcCore.Business.Models;
@@ -31,12 +32,14 @@ namespace MvcCore.App.Controllers
             return View(_mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos()));
         }
 
+        [ClaimsAuthorize("Fornecedor", "Adicionar")]
         [Route("cadastrar-novo-fornecedor")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [ClaimsAuthorize("Fornecedor", "Adicionar")]
         [Route("cadastrar-novo-fornecedor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,6 +65,7 @@ namespace MvcCore.App.Controllers
             return View(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Editar")]
         [Route("editar-fornecedor/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -72,6 +76,7 @@ namespace MvcCore.App.Controllers
             return View(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Editar")]
         [Route("editar-fornecedor/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -89,6 +94,7 @@ namespace MvcCore.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [ClaimsAuthorize("Fornecedor", "Excluir")]
         [Route("excluir-fornecedor/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -100,6 +106,7 @@ namespace MvcCore.App.Controllers
         }
 
         // TODO: Resolver erro do EF Core ao deletar Fornecedor
+        [ClaimsAuthorize("Fornecedor", "Excluir")]
         [Route("excluir-fornecedor/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
