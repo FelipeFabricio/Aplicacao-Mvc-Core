@@ -10,7 +10,9 @@
 <form asp-action="Edit" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-6">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <vc:Summary></vc:Summary>
+
             <input type="hidden" asp-for="Id" />
 
             <div class="form-group">

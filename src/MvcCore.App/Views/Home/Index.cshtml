@@ -1,8 +1,11 @@
-﻿@{
+﻿@using MvcCore.App.Extensions
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4 mb-3 mt-5">@this.retornaSaudacao() :)</h1>
+    <p>Mais sobre o Projeto - <a target="_blank" href="https://github.com/FelipeFabricio/Aplicacao-Mvc-Core"> GitHub</a>.</p>
 </div>

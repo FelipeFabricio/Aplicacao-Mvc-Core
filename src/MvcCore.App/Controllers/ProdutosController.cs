@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcCore.App.Data;
+using MvcCore.App.Extensions;
 using MvcCore.App.ViewModels;
 using MvcCore.Business.Interfaces;
 using MvcCore.Business.Models;
@@ -19,22 +20,28 @@ namespace MvcCore.App.Controllers
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IFornecedorRepository _fornecedorRepository;
+        private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
 
         public ProdutosController(IProdutoRepository produtoRepository,
-                                  IMapper mapper,
-                                  IFornecedorRepository fornecedorRepository)
+                                  IMapper mapper, 
+                                  IProdutoService produtoService,
+                                  INotificador notificador,
+                                  IFornecedorRepository fornecedorRepository) : base (notificador)
         {
             _produtoRepository = produtoRepository;
             _mapper = mapper;
             _fornecedorRepository = fornecedorRepository;
+            _produtoService = produtoService;
         }
 
+        [Route("produtos")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores()));
         }
 
+        [Route("detalhes-do-produto/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             var produtoViewModel = await ObterProduto(id);
@@ -44,6 +51,8 @@ namespace MvcCore.App.Controllers
             return View(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Adicionar")]
+        [Route("cadastrar-novo-produto")]
         public async Task<IActionResult> Create()
         {
             var produtoViewModel = await PopularFornecedores(new ProdutoViewModel());
@@ -51,7 +60,10 @@ namespace MvcCore.App.Controllers
             return View(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Adicionar")]
+        [Route("cadastrar-novo-produto")]
         [HttpPost]
+        // TODO: Rever aula de segurança
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
         {
@@ -65,11 +77,13 @@ namespace MvcCore.App.Controllers
 
             produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
 
-            await _produtoRepository.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             return RedirectToAction("Index");
         }
 
+        [ClaimsAuthorize("Produto", "Editar")]
+        [Route("editar-produto/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var produtoViewModel = await ObterProduto(id);
@@ -79,6 +93,8 @@ namespace MvcCore.App.Controllers
             return View(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Editar")]
+        [Route("editar-produto/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, ProdutoViewModel produtoViewModel)
@@ -105,11 +121,13 @@ namespace MvcCore.App.Controllers
             produtoAtualizacao.Descricao = produtoViewModel.Descricao;
             produtoAtualizacao.Valor = produtoViewModel.Valor;
 
-            await _produtoRepository.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
             return RedirectToAction("Index");
         }
 
+        [ClaimsAuthorize("Produto", "Excluir")]
+        [Route("excluir-produto/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var produtoViewModel = await ObterProduto(id);
@@ -119,6 +137,8 @@ namespace MvcCore.App.Controllers
             return View(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Excluir")]
+        [Route("excluir-produto/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -127,7 +147,7 @@ namespace MvcCore.App.Controllers
 
             if (produtoViewModel == null) return NotFound();
 
-            await _produtoRepository.Remover(id);
+            await _produtoService.Remover(id);
 
             return RedirectToAction("Index");
         }
